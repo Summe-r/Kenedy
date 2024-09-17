@@ -7,6 +7,112 @@
     <link rel="stylesheet" href="Mevric.css">
 </head>
 <body>
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-size: larger;
+    bacbackground-color: red;
+    
+}
+title {
+    font-family: Times New Romans;
+    font-weight: bold;
+    color: Dodgerblue;
+}
+
+body {
+    font-family: MonoLisa;
+    background-color: #f4f4f4;
+    color: #333;
+    font-color: azure;
+    font-weight: light;
+    font-size: large;
+}
+
+.container {
+    width: 90%;
+    margin: 0 auto;
+}
+
+}
+header {
+    background-color: #f8f9fa;
+    padding: 20px 0;
+    text-align: left;
+    
+
+header h1 {
+    margin-bottom: 10px;
+}
+
+header form input {
+    padding: 10px;
+    width: 250px;
+    margin-right: 10px;
+}
+
+header form button {
+    padding: 10px 20px;
+    background-color: red;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.statistics {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px 0;
+    background-color: #ffffff;
+}
+
+.stat-box {
+    text-align: center;
+}
+
+.stat-box h2 {
+    font-size: 2.5em;
+    color: #007bff;
+}
+
+.services, .best-doctors, .testimonials {
+    padding: 20px 0;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.service-box, .doctor-box, .testimonial-box {
+    text-align: center;
+    padding: 20px;
+    background-color: #fff;
+    margin-bottom: 20px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+    boder: 20px solid;
+}
+
+.service-box img, .doctor-box img {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+    border-radius: 30%;
+    margin-bottom: 10px;
+    border: 20px solid;
+   
+}
+
+footer {
+    text-align: center;
+    background-color: blue;
+    color: #fff;
+    padding: 20px 0;
+}
+    
+    </style>
 
     <header>
         
@@ -123,7 +229,80 @@
         </div>
     </footer>
 <script >
-   
+   // Wait for the document to be fully loaded
+document.addEventListener("DOMContentLoaded", function() {
+    // Form Validation
+    const form = document.querySelector("form");
+    const emailInput = document.querySelector("input[type='email']");
+
+    form.addEventListener("submit", function(event) {
+        if (!validateEmail(emailInput.value)) {
+            alert("Please enter a valid email address.");
+            event.preventDefault();  // Prevent form submission
+        } else {
+            alert("Thank you for subscribing!");
+        }
+    });
+
+    // Email validation function
+    function validateEmail(email) {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(email);
+    }
+
+    // Smooth Scrolling to Sections
+    const links = document.querySelectorAll("a[href^='#']");
+    
+    for (const link of links) {
+        link.addEventListener("click", function(event) {
+            event.preventDefault();
+
+            const target = document.querySelector(this.getAttribute("href"));
+            target.scrollIntoView({
+                behavior: "smooth"
+            });
+        });
+    }
+
+    // Dynamically load images (Lazy loading)
+    const lazyImages = document.querySelectorAll("img");
+
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                img.src = img.dataset.src;  // Load the image
+                observer.unobserve(img);
+            }
+        });
+    });
+
+    lazyImages.forEach(image => {
+        imageObserver.observe(image);
+    });
+
+    // Dynamic Stats Counter (for animated numbers)
+    const counters = document.querySelectorAll(".stat-box h2");
+    const speed = 200;  // The higher the slower
+
+    counters.forEach(counter => {
+        const updateCount = () => {
+            const target = +counter.getAttribute("data-target");
+            const count = +counter.innerText;
+
+            const increment = target / speed;
+
+            if (count < target) {
+                counter.innerText = Math.ceil(count + increment);
+                setTimeout(updateCount, 20);
+            } else {
+                counter.innerText = target;
+            }
+        };
+
+        updateCount();
+    });
+});
 </script>
 
 </body>
